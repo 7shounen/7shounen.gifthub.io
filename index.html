@@ -1,135 +1,122 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>7WOLL Torneo Completo</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>7WOLL Torneo</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <style>
     body {
-      margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #0f172a;
+      background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
       color: #f1f5f9;
+      font-family: 'Segoe UI', sans-serif;
     }
-    header {
-      padding: 0;
-    }
-    header img {
-      width: 100%;
-      height: auto;
-      display: block;
-      max-height: 355px;
-      object-fit: cover;
-    }
-    nav {
+
+    .tabs {
       display: flex;
       justify-content: center;
-      background: #0f172a;
-      padding: 0.5rem;
-      box-shadow: inset 0 -1px 0 #334155;
-    }
-    nav button {
-      background: none;
-      color: inherit;
-      border: none;
-      margin: 0 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    nav button:hover {
-      color: #38bdf8;
-    }
-    section {
+      gap: 30px;
+      background: #0f0f0f;
       padding: 1rem;
-      display: none;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.7);
     }
+
+    .tab-btn {
+      color: #f1f5f9;
+      font-size: 1.1rem;
+      background: none;
+      border: none;
+      cursor: pointer;
+      position: relative;
+      padding: 0.5rem 1rem;
+      transition: transform 0.2s, text-shadow 0.3s;
+      text-shadow: 0 0 6px rgba(0, 255, 255, 0.4);
+    }
+
+    .tab-btn:hover {
+      animation: bounce 0.4s;
+      color: #00ffff;
+      text-shadow: 0 0 12px rgba(0, 255, 255, 0.6);
+    }
+
+    .tab-btn.active::after {
+      content: "";
+      position: absolute;
+      bottom: -4px;
+      left: 10%;
+      right: 10%;
+      height: 4px;
+      background: #00ffff;
+      border-radius: 2px;
+      box-shadow: 0 0 10px #00ffff;
+    }
+
+    @keyframes bounce {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-8px); }
+    }
+
+    section {
+      display: none;
+      padding: 2rem;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
     section.active {
       display: block;
     }
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      justify-content: center;
-      margin-bottom: 1rem;
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    input[type="text"], input[type="number"] {
-      padding: 0.5rem;
-      border: none;
-      border-radius: 5px;
-      width: 200px;
-    }
-    button, .round button {
-      padding: 0.5rem 1rem;
-      background: #38bdf8;
-      color: #0f172a;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-    button:hover {
-      background: #0ea5e9;
-    }
-    .participant-list div, .song-list div {
-      background: #334155;
-      padding: 0.4rem;
-      margin: 0.2rem auto;
-      max-width: 300px;
-      position: relative;
-      border-radius: 4px;
-    }
+
     .remove-btn {
       position: absolute;
-      right: 10px;
+      right: 12px;
       top: 50%;
       transform: translateY(-50%);
       background: #ef4444;
       border: none;
-      color: #fff;
+      color: white;
       border-radius: 50%;
-      width: 20px;
-      height: 20px;
-      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      font-weight: bold;
+      box-shadow: 0 0 10px rgba(239,68,68,0.5);
+      transition: background 0.2s;
     }
-    #tournamentBracket {
-      position: relative;
-      padding: 2rem;
-      overflow-x: auto;
-      display: flex;
-      align-items: flex-start;
+
+    .remove-btn:hover {
+      background: #dc2626;
     }
-    .round {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-right: 3rem;
-    }
+
     .match {
-      background: #334155;
-      padding: 1rem;
-      border-radius: 8px;
-      margin: 1rem 0;
-      width: 180px;
+      background: #111827;
+      color: #e0f2fe;
+      padding: 0.8rem;
+      border-radius: 12px;
+      margin: 1rem auto;
+      width: 240px;
       text-align: center;
+      border: 1px solid #334155;
+      box-shadow: 0 0 18px rgba(0,255,255,0.15);
+      transition: transform 0.2s, box-shadow 0.3s;
+      text-shadow: 0 0 6px rgba(0, 255, 255, 0.3);
       position: relative;
-      z-index: 2;
     }
+
+    .match:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 22px rgba(0,255,255,0.3);
+    }
+
     .match.winner {
       border: 2px solid #22c55e;
-      background: #1e3a8a;
+      background: #14532d;
+      color: #d1fae5;
     }
-    .match .button {
-      margin-top: 0.5rem;
-      padding: 0.3rem 0.8rem;
-      background: #facc15;
-      color: #1e293b;
-      border: none;
-      border-radius: 5px;
-      display: block;
-      width: 100%;
-      cursor: pointer;
-    }
+
     .svg-lines {
       position: absolute;
       top: 0;
@@ -137,119 +124,243 @@
       width: 100%;
       height: 100%;
       pointer-events: none;
-      z-index: 1;
+      z-index: 0;
     }
-    svg path {
+
+    svg line {
       stroke: #38bdf8;
       stroke-width: 2;
-      fill: none;
-      stroke-dasharray: 300;
-      stroke-dashoffset: 300;
-      animation: draw 1s forwards ease-out;
+      stroke-linecap: round;
+      filter: drop-shadow(0 0 6px #38bdf8);
     }
-    @keyframes draw {
-      to { stroke-dashoffset: 0; }
+
+    .btn {
+      font-weight: bold;
+      border-radius: 0.75rem;
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 0 10px rgba(0,255,255,0.15);
+      text-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      color: #f1f5f9;
     }
+
+    .btn:hover {
+      opacity: 0.95;
+      transform: scale(1.02);
+      box-shadow: 0 0 14px rgba(0,255,255,0.25);
+    }
+
     #final-winner {
-      text-align: center;
-      font-size: 1.5rem;
-      color: #fbbf24;
-      margin: 1rem;
+      animation: pulse 1s infinite alternate;
+      font-size: 1.6rem;
+      margin-top: 1.5rem;
+      color: #facc15;
+      text-shadow: 0 0 10px rgba(250, 204, 21, 0.7);
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); opacity: 1; }
+      to { transform: scale(1.05); opacity: 0.8; }
+    }
+
+    .hidden { display: none; }
+    .admin-only { display: none; }
+
+    input.form-control {
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      color: #f1f5f9;
+      box-shadow: 0 0 10px rgba(0,255,255,0.1);
+      transition: box-shadow 0.3s, border-color 0.3s;
+      height: 3rem;
+      font-size: 1rem;
+    }
+
+    input.form-control:focus {
+      border-color: #00ffff;
+      box-shadow: 0 0 15px rgba(0,255,255,0.4);
+    }
+
+    .bracket-round {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    #tournamentBracket {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="Logo de 7WOLL" />
-  </header>
-
-  <nav>
-    <button onclick="showSection('participants')">Participantes</button>
-    <button onclick="showSection('songs')">Canciones</button>
-    <button onclick="showSection('bracket')">Torneo</button>
-  </nav>
-
-  <section id="participants" class="active">
-    <h2>Participantes</h2>
-    <form onsubmit="event.preventDefault(); addParticipant();">
-      <input type="text" id="participantName" placeholder="Nombre del participante" required/>
-      <button type="submit">Agregar</button>
-    </form>
-    <div id="participantList" class="participant-list"></div>
-    <div style="text-align: center; margin: 1rem;">
-      <button onclick="shuffleParticipants()">Mezclar</button>
-      <button onclick="startTournament()">Iniciar Torneo</button>
-      <button onclick="resetAll()">Reiniciar Todo</button>
-    </div>
-  </section>
-
-  <section id="songs">
-    <h2>Canciones</h2>
-    <form onsubmit="event.preventDefault(); addSong();">
-      <input type="text" id="songName" placeholder="Nombre de la canción" required/>
-      <button type="submit">Agregar</button>
-    </form>
-    <div id="songList" class="song-list"></div>
-    <form style="justify-content: center;" onsubmit="event.preventDefault(); drawSongs();">
-      <input type="number" id="songCount" placeholder="Cantidad a sortear" min="1"/>
-      <button>Sortear</button>
-    </form>
-    <div style="text-align: center; margin: 1rem;">
-      <button onclick="resetSongs()">Reiniciar Canciones</button>
-    </div>
-    <div id="drawnSongs" style="text-align: center; margin-top:1rem;"></div>
-  </section>
-
-  <section id="bracket">
-    <h2 style="text-align:center;">Bracket del Torneo</h2>
-    <div id="tournamentBracket">
-      <svg class="svg-lines"></svg>
-    </div>
-    <div id="final-winner"></div>
-  </section>
+  <!-- Continúa tu contenido HTML y JS aquí... -->
+  <svg class="svg-lines"></svg>
 
   <script>
-    let participants = [], songNames = [], rounds = [];
+    function drawConnectionLines() {
+      const svg = document.querySelector(".svg-lines");
+      svg.innerHTML = "";
+      const rounds = document.querySelectorAll(".bracket-round");
 
-    function save() {
-      localStorage.setItem('7woll', JSON.stringify({ participants, songNames, rounds }));
-    }
-    function load() {
-      const data = JSON.parse(localStorage.getItem('7woll') || '{}');
-      participants = data.participants || [];
-      songNames = data.songNames || [];
-      rounds = data.rounds || [];
-    }
+      for (let r = 0; r < rounds.length - 1; r++) {
+        const current = rounds[r].querySelectorAll(".match");
+        const next = rounds[r + 1].querySelectorAll(".match");
 
-    function showSection(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      if (id === 'bracket') renderBracket();
-    }
+        current.forEach((matchEl, i) => {
+          const winner = matchEl.classList.contains("winner");
+          if (!winner) return;
 
-    function addParticipant() {
-      const name = document.querySelector('#participantName').value.trim();
-      if (name && !participants.includes(name)) {
-        participants.push(name);
-        document.querySelector('#participantName').value = '';
-        renderParticipants();
-        save();
+          const target = next[Math.floor(i / 2)];
+          if (!target) return;
+
+          const rect1 = matchEl.getBoundingClientRect();
+          const rect2 = target.getBoundingClientRect();
+
+          const x1 = rect1.left + rect1.width / 2;
+          const y1 = rect1.bottom;
+          const x2 = rect2.left + rect2.width / 2;
+          const y2 = rect2.top;
+
+          const svgRect = svg.getBoundingClientRect();
+
+          const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+          line.setAttribute("x1", x1 - svgRect.left);
+          line.setAttribute("y1", y1 - svgRect.top);
+          line.setAttribute("x2", x2 - svgRect.left);
+          line.setAttribute("y2", y2 - svgRect.top);
+          svg.appendChild(line);
+        });
       }
     }
 
-    function removeParticipant(i) {
-      participants.splice(i, 1);
+    const observer = new MutationObserver(() => {
+      drawConnectionLines();
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+    window.addEventListener('resize', drawConnectionLines);
+    window.addEventListener('load', drawConnectionLines);
+  </script>
+</body>
+  <svg id="bracketLines" class="svg-lines"></svg>
+  <header class="w-100">
+    <img src="logo.png" alt="Logo Torneo" style="width: 100%; height: auto; display: block;">
+  </header>
+
+  <div class="container text-center mt-3">
+    <h2 class="text-warning fw-bold">¡ANUNCIOS!</h2>
+    <img src="anuncio.png" alt="Aviso del evento" style="width: 40%; max-width: 40%; height: auto; border-radius: 12px; box-shadow: 0 0 20px rgba(0,0,0,0.5); margin-bottom: 20px;">
+  </div>
+
+  <div class="container text-center mt-4">
+    <button class="btn btn-primary mx-2" onclick="adminLogin()">Administrador</button>
+    <button class="btn btn-info mx-2" onclick="login('guest')">Espectador</button>
+  </div>
+
+  <div id="app" class="hidden container mt-4">
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('participants', this)">PARTICIPANTES</button>
+      <button class="tab-btn" onclick="showTab('songs', this)">CANCIONES</button>
+      <button class="tab-btn" onclick="showTab('bracket', this)">LLAVES</button>
+    </div>
+
+    <section id="participants" class="active">
+      <h2>Participantes</h2>
+      <div class="input-group mb-3 admin-only">
+        <input type="text" id="participantName" class="form-control" placeholder="Nombre del participante">
+        <button class="btn btn-primary" onclick="addParticipant()">Agregar</button>
+      </div>
+      <div id="participantList" class="position-relative"></div>
+      <div class="mt-3 admin-only">
+        <button class="btn btn-warning me-2" onclick="shuffleParticipants()">Mezclar</button>
+        <button class="btn btn-success me-2" onclick="startTournament()">Iniciar Torneo</button>
+        <button class="btn btn-danger me-2" onclick="resetAll()">Reiniciar Todo</button>
+        <button class="btn btn-secondary" onclick="undoLastWinner()">🔙 Retroceder Ronda</button>
+      </div>
+    </section>
+
+    <section id="songs">
+      <h2>Canciones</h2>
+      <div class="input-group mb-3 admin-only">
+        <input type="text" id="songName" class="form-control" placeholder="Nombre de la canción">
+        <button class="btn btn-primary" onclick="addSong()">Agregar</button>
+      </div>
+      <div id="songList"></div>
+      <div class="input-group my-3 admin-only">
+        <input type="number" id="songCount" class="form-control" placeholder="Cantidad a sortear">
+        <button class="btn btn-info" onclick="drawSongs()">Sortear</button>
+      </div>
+      <button class="btn btn-danger admin-only" onclick="resetSongs()">Reiniciar Canciones</button>
+      <div id="drawnSongs" class="mt-4"></div>
+    </section>
+
+    <section id="bracket">
+      <h2 class="text-center">Bracket del Torneo</h2>
+      <div id="tournamentBracket" class="d-flex overflow-auto position-relative"></div>
+      <svg class="svg-lines"></svg>
+      <div id="final-winner"></div>
+    </section>
+  </div>
+
+  <script>
+    let participants = [], songNames = [], rounds = [], isAdmin = false;
+
+    function adminLogin() {
+      const pwd = prompt("Ingresa la clave de administrador:");
+      if (pwd === "admin123") {
+        login('admin');
+      } else {
+        alert("Clave incorrecta.");
+      }
+    }
+
+    function login(mode) {
+      isAdmin = (mode === 'admin');
+      document.querySelector('body > .container').classList.add('hidden');
+      document.getElementById('app').classList.remove('hidden');
+      document.querySelectorAll('.admin-only').forEach(el => {
+        el.style.display = isAdmin ? 'block' : 'none';
+      });
+      loadData();
       renderParticipants();
-      save();
+      renderSongs();
+      if (rounds.length) renderBracket();
+      showTab('participants', document.querySelector('.tab-btn'));
+    }
+
+    function showTab(id, btn) {
+      document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    function addParticipant() {
+      const v = document.getElementById('participantName').value.trim();
+      if (!v) return;
+      participants.push(v);
+      document.getElementById('participantName').value = '';
+      saveAndRender();
+    }
+
+    function removeParticipant(i) {
+      participants.splice(i,1);
+      saveAndRender();
     }
 
     function renderParticipants() {
-      const div = document.getElementById('participantList');
-      div.innerHTML = participants.map((p, i) => `
-        <div><span>${p}</span>
-          <button class="remove-btn" onclick="removeParticipant(${i})">×</button>
-        </div>
-      `).join('');
+      const d = document.getElementById('participantList');
+      d.innerHTML = participants.map((p,i)=>`
+        <div class="match position-relative mb-2">${p}
+          ${isAdmin ? `<button class="remove-btn" onclick="removeParticipant(${i})">×</button>` : ''}
+        </div>`).join('');
     }
 
     function shuffleParticipants() {
@@ -257,141 +368,146 @@
         const j = Math.floor(Math.random() * (i + 1));
         [participants[i], participants[j]] = [participants[j], participants[i]];
       }
-      renderParticipants();
-      save();
+      saveAndRender();
     }
 
     function addSong() {
-      const s = document.querySelector('#songName').value.trim();
-      if (s && !songNames.includes(s)) {
-        songNames.push(s);
-        document.querySelector('#songName').value = '';
-        renderSongs();
-        save();
-      }
+      const v = document.getElementById('songName').value.trim();
+      if (!v) return;
+      songNames.push(v);
+      document.getElementById('songName').value = '';
+      saveAndRender();
     }
 
     function removeSong(i) {
-      songNames.splice(i, 1);
-      renderSongs();
-      save();
+      songNames.splice(i,1);
+      saveAndRender();
     }
 
     function renderSongs() {
-      const div = document.getElementById('songList');
-      div.innerHTML = songNames.map((s, i) => `
-        <div>${s}<button class="remove-btn" onclick="removeSong(${i})">×</button></div>
-      `).join('');
+      const d = document.getElementById('songList');
+      d.innerHTML = songNames.map((s,i)=>`
+        <div class="match position-relative mb-2">${s}
+          ${isAdmin ? `<button class="remove-btn" onclick="removeSong(${i})">×</button>` : ''}
+        </div>`).join('');
     }
 
     function drawSongs() {
       const k = parseInt(document.getElementById('songCount').value) || 1;
       const arr = [...songNames].sort(() => 0.5 - Math.random()).slice(0, k);
-      document.getElementById('drawnSongs').innerHTML = '<h3>Canciones sorteadas:</h3>' + arr.map(s => `<div>${s}</div>`).join('');
-    }
-
-    function resetSongs() {
-      songNames = [];
-      renderSongs();
-      document.getElementById('drawnSongs').innerHTML = '';
-      save();
+      document.getElementById('drawnSongs').innerHTML = '<h3>Canciones sorteadas:</h3>' + arr.map(s=>`<div>${s}</div>`).join('');
     }
 
     function startTournament() {
-      if (participants.length < 2) return alert('Se necesitan al menos 2 participantes');
-      const list = [...participants];
+      if (participants.length < 2) return alert('Necesitas al menos 2 participantes');
       rounds = [];
+      let list = [...participants];
       while (list.length > 1) {
-        const match = [];
+        const matches = [];
         for (let i = 0; i < list.length; i += 2) {
-          match.push({ p1: list[i], p2: list[i + 1] || null, winner: null });
+          matches.push({p1: list[i], p2: list[i+1]||null, winner: null});
         }
-        rounds.push(match);
-        list.length = match.length;
-        for (let i = 0; i < match.length; i++) {
-          list[i] = null;
+        rounds.push(matches);
+        list = new Array(matches.length).fill(null);
+      }
+      saveAndRender();
+    }
+
+    function choose(r,i,pos) {
+      const m = rounds[r][i];
+      m.winner = pos === 1 ? m.p1 : m.p2;
+      if (rounds[r+1]) {
+        if (!rounds[r+1][Math.floor(i/2)].p1)
+          rounds[r+1][Math.floor(i/2)].p1 = m.winner;
+        else rounds[r+1][Math.floor(i/2)].p2 = m.winner;
+      }
+      saveAndRender();
+    }
+
+    function undoLastWinner() {
+      for (let r = rounds.length - 1; r >= 0; r--) {
+        for (let m = 0; m < rounds[r].length; m++) {
+          if (rounds[r][m].winner) {
+            const removed = rounds[r][m].winner;
+            rounds[r][m].winner = null;
+            if (rounds[r + 1]) {
+              const nextMatch = rounds[r + 1][Math.floor(m / 2)];
+              if (nextMatch.p1 === removed) nextMatch.p1 = null;
+              if (nextMatch.p2 === removed) nextMatch.p2 = null;
+            }
+            saveAndRender();
+            return;
+          }
         }
       }
-      save();
-      renderBracket();
+      alert("No hay selecciones previas para deshacer.");
     }
+
+    function renderBracket() {
+  const cont = document.getElementById('tournamentBracket');
+  const svg = document.querySelector('.svg-lines');
+  cont.innerHTML = '';
+  svg.innerHTML = '';
+  rounds.forEach((rm, rIdx) => {
+    const col = document.createElement('div');
+    col.classList.add('d-flex', 'flex-wrap', 'gap-3', 'mb-5');
+    col.style.flexDirection = 'row';
+    const title = document.createElement('h4');
+    title.className = 'text-info text-center w-100';
+    title.textContent = `Ronda ${rIdx + 1}`;
+    cont.appendChild(title);
+    rm.forEach((m, i) => {
+      const d = document.createElement('div');
+      d.classList.add('match');
+      if (m.winner) d.classList.add('winner');
+      d.innerHTML = `
+        <div>${m.p1 || ''}${m.p2 ? ' vs ' + m.p2 : ''}</div>
+        ${m.winner ? `<strong>Ganador: ${m.winner}</strong>` :
+          isAdmin && m.p2 ? `
+          <button class="btn btn-sm btn-success my-1" onclick="choose(${rIdx},${i},1)">Gana ${m.p1}</button>
+          <button class="btn btn-sm btn-info" onclick="choose(${rIdx},${i},2)">Gana ${m.p2}</button>` : ''}
+      `;
+      col.appendChild(d);
+    });
+    cont.appendChild(col);
+  });
+
+  const last = rounds[rounds.length - 1];
+  const fw = document.getElementById('final-winner');
+  if (last && last.length === 1 && last[0].winner) {
+    fw.textContent = `🏆 Ganador: ${last[0].winner}`;
+  } else {
+    fw.textContent = '';
+  }
+
+  saveData();
+}
 
     function resetAll() {
       participants = [];
       songNames = [];
       rounds = [];
-      save();
-      renderParticipants();
-      renderSongs();
-      renderBracket();
+      saveAndRender();
       document.getElementById('drawnSongs').innerHTML = '';
       document.getElementById('final-winner').innerText = '';
     }
 
-    function renderBracket() {
-      const cont = document.getElementById('tournamentBracket');
-      cont.querySelectorAll('.round').forEach(r => r.remove());
-      document.querySelector('.svg-lines').innerHTML = '';
-      rounds.forEach((rMatch, rIdx) => {
-        const col = document.createElement('div');
-        col.classList.add('round');
-        rMatch.forEach((m, idx) => {
-          const d = document.createElement('div');
-          d.classList.add('match');
-          if (m.winner) d.classList.add('winner');
-          d.dataset.r = rIdx;
-          d.dataset.i = idx;
-          d.innerHTML = `
-            <div>${m.p1 || ''} vs ${m.p2 || ''}</div>
-            ${m.winner ? `<strong>Ganador: ${m.winner}</strong>` : `
-              <button class="button" onclick="choose(${rIdx},${idx},1)">Gana ${m.p1}</button>
-              <button class="button" onclick="choose(${rIdx},${idx},2)">Gana ${m.p2}</button>`}
-          `;
-          col.appendChild(d);
-        });
-        cont.appendChild(col);
-      });
-      setTimeout(drawLines, 50);
+    function saveData() {
+      localStorage.setItem('twoll_data', JSON.stringify({participants, songNames, rounds}));
     }
-
-    function choose(r, i, pos) {
-      const m = rounds[r][i];
-      m.winner = pos === 1 ? m.p1 : m.p2;
-      if (rounds[r + 1]) {
-        const nxt = rounds[r + 1][Math.floor(i / 2)];
-        if (!nxt.p1) nxt.p1 = m.winner;
-        else nxt.p2 = m.winner;
-      } else {
-        document.getElementById('final-winner').innerText = `🏆 Ganador: ${m.winner}`;
-      }
-      save();
+    function loadData() {
+      const d = JSON.parse(localStorage.getItem('twoll_data') || '{}');
+      participants = d.participants || [];
+      songNames = d.songNames || [];
+      rounds = d.rounds || [];
+    }
+    function saveAndRender() {
+      saveData();
+      renderParticipants();
+      renderSongs();
       renderBracket();
     }
-
-    function drawLines() {
-      const svg = document.querySelector('.svg-lines');
-      svg.innerHTML = '';
-      const matches = document.querySelectorAll('.match');
-      const off = document.getElementById('tournamentBracket').getBoundingClientRect();
-      matches.forEach(d => {
-        const r = +d.dataset.r, idx = +d.dataset.i;
-        if (!rounds[r + 1]) return;
-        const to = document.querySelector(`.match[data-r="${r + 1}"][data-i="${Math.floor(idx / 2)}"]`);
-        if (!to) return;
-        const a = d.getBoundingClientRect(), b = to.getBoundingClientRect();
-        const x1 = a.right - off.left, y1 = a.top + a.height / 2 - off.top;
-        const x2 = b.left - off.left, y2 = b.top + b.height / 2 - off.top;
-        const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        const c = 40;
-        path.setAttribute('d', `M${x1},${y1} C${x1 + c},${y1} ${x2 - c},${y2} ${x2},${y2}`);
-        svg.appendChild(path);
-      });
-    }
-
-    load();
-    renderParticipants();
-    renderSongs();
-    if (rounds.length) renderBracket();
   </script>
 </body>
 </html>
+
